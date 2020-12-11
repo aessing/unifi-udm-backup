@@ -1,16 +1,72 @@
-#  Project Title
+# Ubiquiti Unifi Dream Machine Backup to FTP
 
-A README file, along with a repository license, contribution guidelines, and a code of conduct, helps you communicate expectations for and manage contributions to your project.
+![Picture of a Ubiquiti Unifi Dream Machine Pro](.footage/udmpro.png)
 
-A README is often the first item a visitor will see when visiting your repository. README files typically include information on:
+One problem of Ubiquitis Unifi Dream Machine (UDM / UDP Pro) is the automatic backup feature. Don't get me wrong... it is great to have an automatic backup feature, but storing backups just on the UDM itself is not a good practice. If you have to hard reset the UDM or the UDM dies, the backups get unaccessable and you have to start from scratch.
 
-- What the project does
-- Why the project is useful
-- How users can get started with the project
-- Where users can get help with your project
-- Who maintains and contributes to the project
+For security reasons, enabling SSH on the UDM and pull the backups from the UDM was not an option for me, as SSH on the UDM is reachable from every VLAN by using password authentication. You could configure that, but your configuration gets resettet on each boot.
 
-:exclamation: Please also have a look at the [license](LICENSE.md) and if the license fits the needs of your project. :exclamation: 
+So, pushing backups was the only option. For this I built this docker container, which starts, copies the backups to an external FTP server on your network or the internet and deletes itself.
+
+## Steps to get up and running
+
+1. Install UDM / UDM Pro [On-Boot-Script](https://github.com/boostchicken/udm-utilities/tree/master/on-boot-script) on your Dream Machine.
+
+    The script of [boostchicken](https://github.com/boostchicken) aka John D. enables init.d style scripts which runs on your UDM at every boot. Normally the UDM resets on every boot and firmware upgrade, but the On-Boot-Script uses a feature of the UDM, which caches all debian style install packages and reinstalls them during the boot process. This enables us to persist and run scripts and customization during the boot process of the Dream Machine.
+    - [GitHub Repo - UDM / UDMPro Boot Script](https://github.com/boostchicken/udm-utilities/tree/master/on-boot-script)    
+    - [GitHub Repo - udm-utilities](https://github.com/boostchicken/udm-utilities)
+    - [GitHub Profile - John D.](https://github.com/boostchicken)
+
+1.  Customize the [on_boot.d/80-udm-backup-ftp.sh](on_boot.d/80-udm-backup-ftp.sh) script and copy it over to the UDM into the On-Boot-Script folder (`/mnt/data/on_boot.d`).
+
+    This script creates a cronjob, which creates and starts the container to copy the automated backups to your FTP server. By default the container runs once per hour, which of course can be customized in the script.
+
+    In the scirpt are also 4 variables, which are used by the container to logon to the FTP server and copy over the backups. 
+
+    ```shell
+    FTP_SERVER={SERVERNAME}
+    FTP_PATH={BACKUPPATH}
+    FTP_USER={FTPUSER}
+    FTP_PASSWORD={FTPPASSWORD}
+    ```
+
+    Please edit the variables and copy the script to `/mnt/data/on_boot.d`. You also have to make the script executeable.
+    ```shell
+    chmod a+x /mnt/data/on_boot.d/80-udm-backup-ftp.sh
+    ```
+
+1.  I recommend to pull the container image manually from [Docker Hub](https://hub.docker.com/repository/docker/aessing/udm-backup-ftp) before the cronjob runs the first time. Depending on your internet connection, this could take a moment.
+    ```shell
+    podman pull docker.io/aessing/udm-backup-ftp
+    ```
+
+1. To activate the cronjob you could reboot your UDM, or you could just run the script manually (my recommendation).
+    ```shell
+    /mnt/data/on_boot.d/80-udm-backup-ftp.sh
+    ```
+
+1. Check in the logs of the CRON daemon, if the backup script ran successfully. 
+   ```shell
+   tail -n 50 /var/log/cronjobs.log
+   ```
+
+## Upgrade
+If a new version of the container is released, the update is done in 3 simple steps.
+
+1. Check that the backup process and the container is actually not running
+    ```shell
+    podman ps
+    ```
+
+1. Delete the old container image
+    ```shell
+    podman rmi docker.io/aessing/udm-backup-ftp
+    ```
+
+1. Download the new docker container image from [Docker Hub](https://hub.docker.com/repository/docker/aessing/udm-backup-ftp)
+    ```shell
+    podman pull docker.io/aessing/udm-backup-ftp
+    ```
 
 ---
 

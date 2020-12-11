@@ -23,13 +23,14 @@
 
 echo ""
 echo "============================================================================="
+echo "$(date)"
 echo "Starting backtup to:"
 echo " - FTP Server: ${FTP_SERVER}"
 echo " - FTP Path: ${FTP_PATH}"
 echo " - FTP User: ${FTP_USER}"
 echo "-----------------------------------------------------------------------------"
 echo ""
-/usr/bin/lftp -e "set ssl:verify-certificate no;mirror --no-perms --no-umask --no-symlinks -R $UNIFI_BACKUPS $FTP_PATH;exit" -u $FTP_USER,$FTP_PASSWORD $FTP_SERVER
+/usr/bin/lftp -e "set ssl:verify-certificate no;mirror --overwrite --no-perms --no-umask --no-symlinks -R $UNIFI_BACKUPS $FTP_PATH;exit" -u $FTP_USER,$FTP_PASSWORD $FTP_SERVER
 echo ""
 echo " - done"
 echo "============================================================================="
