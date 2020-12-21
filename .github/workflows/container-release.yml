@@ -34,12 +34,21 @@ jobs:
         uses: docker/setup-buildx-action@v1
 
       - name: Login to DockerHub
-        id: login
+        id: login-dockerhub
         if: success()
         uses: docker/login-action@v1 
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_ACCESSTOKEN }}
+          
+      - name: Login to GitHub Container Registry
+        id: login-ghcr
+        if: success()
+        uses: docker/login-action@v1 
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GHCR_ACCESSTOKEN }}
 
       - name: Push to Docker Hub
         id: push_dockerhub
@@ -50,7 +59,11 @@ jobs:
           file: ./Dockerfile
           platforms: arm64
           push: true
-          tags: ${{ github.repository }}:latest,${{ github.repository }}:latest,${{ github.repository }}:latest,${{ github.repository }}:${{ steps.tag.outputs.tag }}
+          tags: |
+            ${{ github.repository }}:latest
+            ${{ github.repository }}:${{ steps.tag.outputs.tag }}
+            ghcr.io/${{ github.repository }}:latest
+            ghcr.io/${{ github.repository }}:${{ steps.tag.outputs.tag }}
 
       - name: Image digest Docker Hub
         id: digest_dockerhub
