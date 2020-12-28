@@ -3,7 +3,7 @@ name: Critical bug report
 about: Create a report for a critical issue
 title: ''
 labels: 'bug, critical'
-assignees: '@aessing'
+assignees: ''
 ---
 
 <!-- Please provide a general summary of the issue in the title above -->

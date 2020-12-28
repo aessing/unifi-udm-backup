@@ -3,7 +3,7 @@ name: Documentation issue
 about: Report issues in the documentation
 title: ''
 labels: 'documentation'
-assignees: '@aessing'
+assignees: ''
 ---
 
 <!-- Please provide a general summary of the issue in the title above -->

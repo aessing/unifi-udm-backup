@@ -3,7 +3,7 @@ name: Feature request
 about: Suggest an idea for this project
 title: ''
 labels: 'feature'
-assignees: '@aessing'
+assignees: ''
 ---
 
 <!-- Please provide a general summary of the feature request in the title above -->
