@@ -6,6 +6,8 @@ For security reasons, enabling SSH on the UDM and pull the backups from the UDM 
 
 So, pushing backups was the only option. For this I built this docker container, which starts, copies the backups to an external FTP server on your network or the internet and deletes itself.
 
+> If you have a Unifi Cloud Key Gen 2, have a look at my FTP backup for Ubiquiti Unifi Cloud Key Gen 2. [aessing/uck-backup-ftp](https://github.com/aessing/uck-backup-ftp) 
+
 ## Steps to get up and running
 
 1. Install UDM / UDM Pro [On-Boot-Script](https://github.com/boostchicken/udm-utilities/tree/master/on-boot-script) on your Dream Machine.
