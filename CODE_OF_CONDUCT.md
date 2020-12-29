@@ -1,6 +1,6 @@
 # :cop: Code of Conduct
 
-This Code of Conduct outlines expectations for participation in the community, as well as steps for reporting unacceptable behavior. I am committed to providing a welcoming and inspiring community for all. People violating this code of conduct may be banned from the community.
+This Code of Conduct outlines expectations for participation in the community, as well as steps for reporting unacceptable behavior. We are committed to providing a welcoming and inspiring community for all. People violating this code of conduct may be banned from the community.
 
 This community strive to:
 
@@ -17,11 +17,11 @@ This community strive to:
   - Other conduct which could reasonably be considered inappropriate in a professional setting.
   - Advocating for or encouraging any of the above behaviors.
 - __Understand disagreements__: Disagreements, both social and technical, are useful learning opportunities. Seek to understand the other viewpoints and resolve differences constructively.
-- This code is not exhaustive or complete. It serves to capture the common understanding of a productive, collaborative environment. I expect the code to be followed in spirit as much as in the letter.
+- This code is not exhaustive or complete. It serves to capture the common understanding of a productive, collaborative environment. We expect the code to be followed in spirit as much as in the letter.
 
 ## :telescope: Scope
 
-This code of conduct applies to all repos and communities for my projects regardless of whether or not the repo explicitly calls out its use of this code. The code also applies in public spaces when an individual is representing a project or its community. Examples include using an official project e-mail address, posting via an official social media account, or acting as an appointed representative at an online or offline event. Representation of a project may be further defined and clarified by project maintainers.
+This code of conduct applies to all repos and communities for our projects regardless of whether or not the repo explicitly calls out its use of this code. The code also applies in public spaces when an individual is representing a project or its community. Examples include using an official project e-mail address, posting via an official social media account, or acting as an appointed representative at an online or offline event. Representation of a project may be further defined and clarified by project maintainers.
 
 ## :man_in_tuxedo: Responsibilities
 

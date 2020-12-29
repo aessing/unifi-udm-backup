@@ -1,10 +1,10 @@
-<!-- Please provide a general summary of your changes in the Title above -->
+<!-- Please provide a general summary of your changes in the title above -->
 
 # Pull Request
 Thank you for your contribution.
 
 Before submitting this Pull Request, please make sure: _Put an `x` in the boxes that apply_
-- [ ] You reviewed my [guidelines for contributing](../CONTRIBUTING.md) to this repository
+- [ ] You reviewed our [guidelines for contributing](../CONTRIBUTING.md) to this repository
 - [ ] Does an issue exists which is related to this Pull Request <!--- This project only accepts Pull Requests related to open issues -->
 - [ ] Your code builds clean without any errors or warnings
 - [ ] You are using approved terminology
@@ -12,13 +12,13 @@ Before submitting this Pull Request, please make sure: _Put an `x` in the boxes 
 - [ ] You have added unit tests
 
 ## Proposed changes
-<!-- Please describe the big picture of your changes here to communicate why I should accept this Pull Request. Why is this change required? What problem does it solve? -->
+<!-- Please describe the big picture of your changes here to communicate to the maintainers why we should accept this Pull Request. Why is this change required? What problem does it solve? -->
 
 ## Types of changes
 What types of changes does your change introduce? _Put an `x` in the boxes that apply_
 - [ ] New feature (adds functionality)   <!-- If suggesting a new feature or change, please discuss it in an issue first -->
 - [ ] Bugfix (fixes an issue)            <!-- If fixing a bug, there should be an issue describing it with steps to reproduce -->
-- [ ] Security (fixes an security issue) | Please have a look at my [Security Policy](../SECURITY.md) first.
+- [ ] Security (fixes an security issue) | Please have a look at our [Security Policy](../SECURITY.md) first.
 - [ ] Code style cleaning or Refactoring (formatting, renaming, restructuring, etc.)
 - [ ] Documentation Update
 - [ ] Other (please describe):
