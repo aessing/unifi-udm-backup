@@ -72,7 +72,7 @@ If a new version of the container is released, the update is done in 3 simple st
 
 ## :ambulance: Support Information
 
-For further information about this project, how to [contribute](CONTRIBUTING.md), or how to contact me, please have a look at the [support document](SUPPORT.md) of this repository. It also contains information about [security related topics](SECURITY.md), [licensing](LICENSE.md), and more.  
+For further information about this project, how to [contribute](CONTRIBUTING.md), or how to contact us, please have a look at the [support document](SUPPORT.md) of this repository. It also contains information about [security related topics](SECURITY.md), [licensing](LICENSE.md), and more.  
 
 ## :man_judge: Disclaimer
 
