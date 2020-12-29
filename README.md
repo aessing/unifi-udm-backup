@@ -1,6 +1,6 @@
 # Ubiquiti Unifi Dream Machine Backup to FTP
 
-![Picture of a Ubiquiti Unifi Dream Machine Pro](.media/udmpro.png)
+![Picture of a Ubiquiti Unifi Dream Machine Pro](docs/images/udmpro-640x320.png)
 
 One problem of Ubiquitis Unifi Dream Machine (UDM / UDP Pro) is the automatic backup feature. Don't get me wrong... it is great to have an automatic backup feature, but storing backups just on the UDM itself is not a good practice. If you have to hard reset the UDM or the UDM dies, the backups get unaccessable and you have to start from scratch.
 

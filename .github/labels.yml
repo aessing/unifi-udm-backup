@@ -1,0 +1,36 @@
+- name: breaking change
+  description: Changes that will break something
+  color: d876e3
+- name: bug
+  description: Something isn't working
+  color: f67828
+- name: critical
+  description: Security issues, data loss, etc.
+  color: d80000
+- name: dependencies
+  description: Pull requests that update a dependency file
+  color: 861a22
+- name: documentation
+  description: Improvements or additions to documentation
+  color: 0075ca
+- name: duplicate
+  description: This issue or pull request already exists
+  color: D9D9D6
+- name: feature
+  description: New feature or request
+  color: f1dd38
+- name: help wanted
+  description: Extra attention is needed
+  color: 366735
+- name: idea
+  description: An idea that should be considered for the next releases
+  color: 6aed9c
+- name: invalid
+  description: This doesn't seem right
+  color: 000000
+- name: question
+  description: Further information is requested
+  color: 9d622b
+- name: wontfix
+  description: This will not be worked on
+  color: ffffff

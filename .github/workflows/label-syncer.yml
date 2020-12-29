@@ -1,0 +1,27 @@
+name: Label Syncer
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - .github/labels.yml
+
+jobs:
+  build:
+    name: Sync repository labels from file
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        id: checkout
+        uses: actions/checkout@v2
+        
+      - uses: micnncim/action-label-syncer@v1.2.0
+        id: labeling
+        if: success()
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        with:
+          manifest: .github/labels.yml
