@@ -48,8 +48,8 @@ VOLUME ${UNIFI_PROTECT_BACKUPS}
 # Update Linux and install necessary packages
 #
 RUN apk add --no-cache ca-certificates \
-                       lftp && \
-
+                       lftp
+                       
 ###############################################################################
 #
 # Copy files
