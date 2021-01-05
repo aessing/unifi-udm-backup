@@ -13,75 +13,63 @@
 # WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
 # =============================================================================
 
-
 ###############################################################################
 #
 # Get the base Linux image
 #
-FROM arm64v8/ubuntu:latest
-ARG ARCH=arm64v8
-
+FROM arm64v8/alpine:latest
 
 ###############################################################################
 #
-# Set parameters
+# Set some information
 #
+LABEL tag="aessing/udm-backup-ftp" \
+      description="A Docker container which copies automatic backups from the Unifi Dream Machine to a FTP server" \
+      disclaimer="THE CONTENT OF THIS REPOSITORY IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE CONTENT OF THIS REPOSITORY OR THE USE OR OTHER DEALINGS BY CONTENT OF THIS REPOSITORY." \
+      vendor="Andre Essing" \
+      github-repo="https://github.com/aessing/udm-backup-ftp"
 
-# SETUP ENVS FOR FTP CONNECTION
+###############################################################################
+#
+# Set some parameters
+#
 ENV FTP_SERVER=''
 ENV FTP_PATH=''
 ENV FTP_USER=''
 ENV FTP_PASSWORD=''
-
-# SETUP PATH ENVS FOR UNIFI BACKUPS
 ENV UNIFI_BACKUPS='/backups'
 ENV UNIFI_NETWORK_BACKUPS='/backups/unifi'
 ENV UNIFI_PROTECT_BACKUPS='/backups/protect'
-
-# TELL THE OS IT IS HEADLESS
-ENV DEBIAN_FRONTEND=noninteractive 
-
-# SET MOUNTPOINTS
 VOLUME ${UNIFI_NETWORK_BACKUPS}
 VOLUME ${UNIFI_PROTECT_BACKUPS}
-
 
 ###############################################################################
 #
 # Update Linux and install necessary packages
 #
-
-# UPDATE LINUX
-RUN apt-get update -y
-RUN apt-get install --no-install-recommends -y apt-utils 
-RUN apt-get upgrade -y
-
-# INSTALL PACKAGES
-RUN apt-get install --no-install-recommends -y lftp ca-certificates
-
-# CLEAN UP
-RUN apt autoremove -y
-RUN apt autoclean -y
-
-
+RUN apk add --no-cache ca-certificates \
+                       lftp
+                       
 ###############################################################################
 #
 # Copy files
 #
-
-# COPY STARTUP SCRIPT
 COPY startup.sh /startup.sh
 RUN chmod a+x /startup.sh
 
+###############################################################################
+#
+# Create and run in non-root context
+#
+RUN addgroup -g 1001 -S backupuser && adduser -G backupuser -S -u 1001 backupuser
+USER backupuser
 
 ###############################################################################
 #
 # Start FTP copy process
 #
-
 WORKDIR /
 ENTRYPOINT [ "./startup.sh" ]
-
 
 ###############################################################################
 #EOF
