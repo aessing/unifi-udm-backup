@@ -28,8 +28,8 @@ FTP_PATH={BACKUPPATH}
 FTP_USER={FTPUSER}
 FTP_PASSWORD={FTPPASSWORD}
 
-SDN_MOUNT="/mnt/data/unifi-os/unifi/data/backup/autobackup:/backups/unifi"
-PROTECT_MOUNT="/mnt/data_ext/unifi-os/unifi-protect/backups:/backups/protect"
+SDN_MOUNT="/mnt/data/unifi-os/unifi/data/backup/autobackup:/backups/unifi:ro"
+PROTECT_MOUNT="/mnt/data_ext/unifi-os/unifi-protect/backups:/backups/protect:ro"
 
 if [ ! -f "${CRON_FILE}" ]; then
     echo "30 * * * * podman run -it --rm --name UDM-FTP-Backup --network=host -e \"FTP_SERVER=$FTP_SERVER\" -e \"FTP_PATH=$FTP_PATH\" -e \"FTP_USER=$FTP_USER\" -e \"FTP_PASSWORD=$FTP_PASSWORD\" -v \"$SDN_MOUNT\" -v \"$PROTECT_MOUNT\" docker.io/aessing/udm-backup-ftp" > ${CRON_FILE}
