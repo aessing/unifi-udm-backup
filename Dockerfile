@@ -47,10 +47,8 @@ VOLUME ${UNIFI_PROTECT_BACKUPS}
 #
 # Update Linux and install necessary packages
 #
-RUN apk -U upgrade && \
-    apk add --no-cache ca-certificates \
+RUN apk add --no-cache ca-certificates \
                        lftp && \
-    rm -rf /var/cache/apk/*
 
 ###############################################################################
 #
@@ -63,7 +61,7 @@ RUN chmod a+x /startup.sh
 #
 # Create and run in non-root context
 #
-RUN groupadd -r -g 1001 backupuser && useradd --no-log-init -r -u 1001 -g backupuser backupuser
+RUN addgroup -g 1001 -S backupuser && adduser -G backupuser -S -u 1001 backupuser
 USER backupuser
 
 ###############################################################################
