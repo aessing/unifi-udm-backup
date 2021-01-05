@@ -61,7 +61,10 @@ RUN chmod a+x /startup.sh
 #
 # Create and run in non-root context
 #
-RUN addgroup -g 1001 -S backupuser && adduser -G backupuser -S -u 1001 backupuser
+RUN addgroup -g 1001 -S backupuser && \
+    adduser -G backupuser -S -u 1001 backupuser && \
+    addgroup -g 902 -S backupuser unifi && \
+    addgroup -g 903 -S backupuser unifi-protect
 USER backupuser
 
 ###############################################################################
