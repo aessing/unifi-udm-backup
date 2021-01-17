@@ -50,8 +50,7 @@ fi
 CRON_CMD="${CRON_CMD} ${BACKUP_IMG}"
 
 if [ ! -f "${CRON_FILE}" ]; then
-    echo "${CRON_CMD}"
-    #  > ${CRON_FILE}
+    echo "${CRON_SCHEDULE} ${CRON_CMD}"  > ${CRON_FILE}
     chmod 644 ${CRON_FILE}
     /etc/init.d/crond reload ${CRON_FILE}
 fi
