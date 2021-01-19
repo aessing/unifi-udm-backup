@@ -32,9 +32,10 @@ CRON_SCHEDULE='30 * * * *'
 
 
 SDN_MOUNT="/mnt/data/unifi-os/unifi/data/backup/autobackup:/backups/unifi:ro"
-# PROTECT_MOUNT="/mnt/data_ext/unifi-os/unifi-protect/backups:/backups/protect:ro"
+# you can comment next line to disable protect backup (or if protect is disabled on your UDM)
+PROTECT_MOUNT="/mnt/data_ext/unifi-os/unifi-protect/backups:/backups/protect:ro"
 
-CRON_CMD="podman run -it --rm --name UDM-FTP-Backup --network=host -e \"FTP_SERVER=$FTP_SERVER\" -e \"FTP_PATH=$FTP_PATH\" -e \"FTP_USER=$FTP_USER\" -e \"FTP_PASSWORD=$FTP_PASSWORD\""
+CRON_CMD="${CRON_SCHEDULE} podman run -it --rm --name UDM-FTP-Backup --network=host -e \"FTP_SERVER=$FTP_SERVER\" -e \"FTP_PATH=$FTP_PATH\" -e \"FTP_USER=$FTP_USER\" -e \"FTP_PASSWORD=$FTP_PASSWORD\""
 BACKUP_IMG='docker.io/aessing/udm-backup-ftp'
 
 
@@ -50,7 +51,7 @@ fi
 CRON_CMD="${CRON_CMD} ${BACKUP_IMG}"
 
 if [ ! -f "${CRON_FILE}" ]; then
-    echo "${CRON_SCHEDULE} ${CRON_CMD}"  > ${CRON_FILE}
+    echo "${CRON_CMD}" > ${CRON_FILE}
     chmod 644 ${CRON_FILE}
     /etc/init.d/crond reload ${CRON_FILE}
 fi
