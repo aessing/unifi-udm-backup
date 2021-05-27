@@ -17,7 +17,7 @@ jobs:
         id: checkout
         uses: actions/checkout@v2
         
-      - uses: micnncim/action-label-syncer@v1.2.0
+      - uses: micnncim/action-label-syncer@v1.3.0
         id: labeling
         if: success()
         env:
