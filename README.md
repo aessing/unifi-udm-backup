@@ -17,11 +17,9 @@ So, pushing backups was the only option. For this I built this docker container,
     - [GitHub Repo - udm-utilities](https://github.com/boostchicken/udm-utilities)
     - [GitHub Profile - John D.](https://github.com/boostchicken)
 
-1.  Customize the [on_boot.d/80-udm-backup-ftp.sh](on_boot.d/80-udm-backup-ftp.sh) script and copy it over to the UDM into the On-Boot-Script folder (`/mnt/data/on_boot.d`).
-
-    This script creates a cronjob, which creates and starts the container to copy the automated backups to your FTP server. By default the container runs once per hour, which of course can be customized in the script.
-
-    In the scirpt are also 4 variables, which are used by the container to logon to the FTP server and copy over the backups. 
+1.  Customize conf.env.dist with your own values and store in `/mnt/data/udm-backup-ftp` (you can store whenever but you should change the path in `80-udm-backup-ftp.sh` file and `ENV_FILE` variable).
+    This file needs 4 variables to work, which are used by the container to logon to
+    the FTP server and copy over the backups. 
 
     ```shell
     FTP_SERVER={SERVERNAME}
@@ -30,22 +28,35 @@ So, pushing backups was the only option. For this I built this docker container,
     FTP_PASSWORD={FTPPASSWORD}
     ```
 
-    Please edit the variables and copy the script to `/mnt/data/on_boot.d`. You also have to make the script executeable.
+    In this example the script is stored in `/mnt/data/udm-backup-ftp/conf.env`. If
+    you change the path or the file name you will need to edit a variable in step 2.
+
+2.  Customize the [on_boot.d/80-udm-backup-ftp.sh](on_boot.d/80-udm-backup-ftp.sh) script and copy it over to the UDM into the On-Boot-Script folder (`/mnt/data/on_boot.d`).
+
+    This script creates a cronjob, which creates and starts the container to copy the automated backups to your FTP server. By default the container runs once per hour, which of course can be customized in the script.
+
+    In the script you can configure two variables:
+      - `ENV_FILE` if you are storing your FTP credentials in a different path than
+        the proposed in step 1 (`/mnt/data/udm-backup-ftp/conf.env`).
+      - Comment `PROTECT_MOUNT` variable if you do not want to do backups for Unifi
+        Protect.
+
+    Please edit what you need and copy the script to `/mnt/data/on_boot.d`. You also have to make the script executeable.
     ```shell
     chmod a+x /mnt/data/on_boot.d/80-udm-backup-ftp.sh
     ```
 
-1.  I recommend to pull the container image manually from [Docker Hub](https://hub.docker.com/repository/docker/aessing/udm-backup-ftp) before the cronjob runs the first time. Depending on your internet connection, this could take a moment.
+3.  I recommend to pull the container image manually from [Docker Hub](https://hub.docker.com/repository/docker/aessing/udm-backup-ftp) before the cronjob runs the first time. Depending on your internet connection, this could take a moment.
     ```shell
     podman pull docker.io/aessing/udm-backup-ftp
     ```
 
-1. To activate the cronjob you could reboot your UDM, or you could just run the script manually (my recommendation).
+4. To activate the cronjob you could reboot your UDM, or you could just run the script manually (my recommendation).
     ```shell
     /mnt/data/on_boot.d/80-udm-backup-ftp.sh
     ```
 
-1. Check in the logs of the CRON daemon, if the backup script ran successfully. 
+5. Check in the logs of the CRON daemon, if the backup script ran successfully. 
    ```shell
    tail -n 50 /var/log/cronjobs.log
    ```
