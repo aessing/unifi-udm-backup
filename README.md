@@ -1,6 +1,6 @@
 ![Ubiquiti Unifi Dream Machine Backup to FTP Banner](docs/images/banner.png)
 
-One problem of Ubiquitis Unifi Dream Machine (UDM / UDP Pro) is the automatic backup feature. Don't get me wrong... it is great to have an automatic backup feature, but storing backups just on the UDM itself is not a good practice. If you have to hard reset the UDM or the UDM dies, the backups get unaccessable and you have to start from scratch.
+One problem of Ubiquitis Unifi Dream Machine (UDM / UDP Pro) is the automatic backup feature. Don't get me wrong... it is great to have an automatic backup feature, but storing backups just on the UDM itself is not a good practice. If you have to hard reset the UDM or the UDM dies, the backups get unaccessable and you have to start from scratch. Also, the newly introduced cloud backup feature is beta and doesn't take care about your Unifi Protection setup.
 
 For security reasons, enabling SSH on the UDM and pull the backups from the UDM was not an option for me, as SSH on the UDM is reachable from every VLAN by using password authentication. You could configure that, but your configuration gets resettet on each boot.
 
@@ -17,11 +17,8 @@ So, pushing backups was the only option. For this I built this docker container,
     - [GitHub Repo - udm-utilities](https://github.com/boostchicken/udm-utilities)
     - [GitHub Profile - John D.](https://github.com/boostchicken)
 
-1.  Customize the [on_boot.d/80-udm-backup-ftp.sh](on_boot.d/80-udm-backup-ftp.sh) script and copy it over to the UDM into the On-Boot-Script folder (`/mnt/data/on_boot.d`).
-
-    This script creates a cronjob, which creates and starts the container to copy the automated backups to your FTP server. By default the container runs once per hour, which of course can be customized in the script.
-
-    In the scirpt are also 4 variables, which are used by the container to logon to the FTP server and copy over the backups. 
+1.  Customize conf.env with your own values and store in a folder called `/mnt/data/udm-backup-ftp` on your UDM (you can store the file wherever you want, but than you have to change the path in the `ENV_FILE` variable in the `80-udm-backup-ftp.sh` script file). In this example, which is also the default of the script file, the configuration is stored in `/mnt/data/udm-backup-ftp/conf.env`. 
+    This file needs 4 variables to work, which are used by the container to logon to the FTP server and copy over the backups. 
 
     ```shell
     FTP_SERVER={SERVERNAME}
@@ -29,8 +26,20 @@ So, pushing backups was the only option. For this I built this docker container,
     FTP_USER={FTPUSER}
     FTP_PASSWORD={FTPPASSWORD}
     ```
+    Please make your the configuration file is only readable by root.
+    ```shell
+    chmod 0400 /mnt/data/udm-backup-ftp/conf.env
+    ```
 
-    Please edit the variables and copy the script to `/mnt/data/on_boot.d`. You also have to make the script executeable.
+1.  Customize the [on_boot.d/80-udm-backup-ftp.sh](on_boot.d/80-udm-backup-ftp.sh) script and copy it over to the UDM into the On-Boot-Script folder (`/mnt/data/on_boot.d`).
+
+    This script creates a cronjob, which pulls and starts the container to copy the automated backups to your FTP server. By default the container runs once per hour, which of course can be customized in the script.
+
+    In the script you can configure two variables:
+      - `ENV_FILE` if you are storing your FTP credentials in a different path than proposed (`/mnt/data/udm-backup-ftp/conf.env`).
+      - Comment `PROTECT_MOUNT` variable if you do not want to do backups for Unifi Protect.
+
+    Please make your changes and copy the script to `/mnt/data/on_boot.d`. You also have to make the script executeable.
     ```shell
     chmod a+x /mnt/data/on_boot.d/80-udm-backup-ftp.sh
     ```
