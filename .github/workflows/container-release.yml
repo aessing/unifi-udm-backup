@@ -52,7 +52,7 @@ jobs:
       - name: Build and Push
         id: push_dockerhub
         if: success()
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v3
         with:
           context: .
           file: ./Dockerfile
